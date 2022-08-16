@@ -321,17 +321,21 @@ Definition orb' (b1:bool) (b2:bool) : bool :=
     skip over [simpl] and go directly to [reflexivity]. We'll
     explain this phenomenon later in the chapter. *)
 
-Definition nandb (b1:bool) (b2:bool) : bool
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+(* mattr *)
+Definition nandb (b1:bool) (b2:bool) : bool :=
+  match b1 with
+    | false => true
+    | true => negb b2
+  end.
 
 Example test_nandb1:               (nandb true false) = true.
-(* FILL IN HERE *) Admitted.
+ Proof. simpl. reflexivity. Qed.
 Example test_nandb2:               (nandb false false) = true.
-(* FILL IN HERE *) Admitted.
+  Proof. simpl. reflexivity. Qed.
 Example test_nandb3:               (nandb false true) = true.
-(* FILL IN HERE *) Admitted.
+  Proof. simpl. reflexivity. Qed.
 Example test_nandb4:               (nandb true true) = false.
-(* FILL IN HERE *) Admitted.
+  Proof. simpl. reflexivity. Qed.
 (** [] *)
 
 (** **** Exercise: 1 star, standard (andb3)
@@ -986,7 +990,7 @@ Proof.
 
 Theorem plus_1_l : forall n:nat, 1 + n = S n.
 Proof.
-  intros n. reflexivity.  Qed.
+  intros n. simpl. reflexivity.  Qed.
 
 Theorem mult_0_l : forall n:nat, 0 * n = 0.
 Proof.
@@ -1145,7 +1149,7 @@ Abort.
 Theorem plus_1_neq_0 : forall n : nat,
   (n + 1) =? 0 = false.
 Proof.
-  intros n. destruct n as [| n'] eqn:E.
+  intros n. destruct n  eqn:E.
   - reflexivity.
   - reflexivity.   Qed.
 
@@ -1302,7 +1306,14 @@ Qed.
 Theorem andb_true_elim2 : forall b c : bool,
   andb b c = true -> c = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros b0. destruct b0 eqn:B.
+    - intros c. destruct c eqn:C.
+      + simpl. intros H. reflexivity.
+      + intros H. rewrite <- H. simpl. reflexivity.
+    - intros c. destruct c eqn:C.
+      + simpl. intros H. reflexivity.
+      + simpl. intros H. rewrite <- H. reflexivity.
+  Qed.
 (** [] *)
 
 (** Before closing the chapter, let's mention one final

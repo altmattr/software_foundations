@@ -1,3 +1,7 @@
 tasks:
   - name: "install coq"
-    command: sudo apt-get update; sudo apt-get -y install coq # runs during prebuild
+    command: |
+      sudo apt-get install -y opam
+      opam init -a
+      opam install -y coq
+      eval $(opam env)
